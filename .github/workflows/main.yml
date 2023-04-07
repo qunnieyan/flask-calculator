@@ -43,8 +43,8 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-          context: ./Environment/App/app/
-          file: ./Environment/App/app/Dockerfile
+          context: .
+          file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/flask-calculator:${{ github.sha }}
