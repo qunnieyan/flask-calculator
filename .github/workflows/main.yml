@@ -36,7 +36,7 @@ jobs:
         path: logs/output.json
 
   deploy:
-    needs: [build, sca]
+    needs: [build, sast]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
