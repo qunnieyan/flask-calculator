@@ -26,6 +26,8 @@ jobs:
       - name: Safety
         run: >
           pip install safety && safety check -r requirements.txt > logs/result-safety.txt
+        working-directory: ./
+
       - uses: actions/upload-artifact@v2
         with:
           name: logs
@@ -33,6 +35,8 @@ jobs:
       - name: Pyraider
         run: >
           pip install pyraider && pyraider check -f requirements.txt > logs/result-pyraider.txt
+        working-directory: ./
+
       - uses: actions/upload-artifact@v2
         with:
           name: logs
