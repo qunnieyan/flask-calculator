@@ -15,7 +15,7 @@ jobs:
 
     - name: Build docker
       run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flask-calculator:${{ github.sha }}
-      working-directory: ./Dockerfile
+      working-directory: ./
 
   deploy:
     runs-on: ubuntu-latest
