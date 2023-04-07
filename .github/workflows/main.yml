@@ -18,14 +18,13 @@ jobs:
       working-directory: ./
 
   sca:
-    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: |
           mkdir -p logs/
       - name: Safety
-        run: |
+        run: >
           pip install safety
           safety check -r requirements.txt > logs/result-safety.txt
       - uses: actions/upload-artifact@v2
@@ -33,7 +32,7 @@ jobs:
           name: logs
           path: logs/result.txt
       - name: Pyraider
-        run: |
+        run: >
           pip install pyraider
           pyraider check -f requirements.txt > logs/result-pyraider.txt
       - uses: actions/upload-artifact@v2
