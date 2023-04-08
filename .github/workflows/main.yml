@@ -45,16 +45,21 @@ jobs:
     runs-on: ubuntu-latest
     # permissions: write-all
     steps:
-     - name: Checkout
-       uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
     
-     - name: Build Image for testing
-       run: docker build -t flask-calculator:${{ github.sha }} .
-     - name: ZAP Scan
-       uses: zaproxy/action-baseline@v0.6.1
-       with:
-         target: 'http://localhost:5000'
-         cmd_options: '-a'    
+      - name: Build Image for testing
+        run: docker build -t flask-calculator:${{ github.sha }} .
+      
+      - name: Run Docker container
+        run: |
+          docker run -d -p 3000:3000 --name flask-app flask-calculator:${{ github.sha }}
+
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.6.1
+        with:
+          target: 'http://localhost:3000'
+          cmd_options: '-a'    
          
   deploy:
     needs: [build, sast, dast]
