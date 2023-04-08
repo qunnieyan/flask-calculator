@@ -29,28 +29,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2   
-
+      - name: Pyraider
+        run: |
+          pip install pyraider
+          pyraider check -f ./requirements.txt > ./logs/result-pyraider.txt
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: logs/result.json 
       - name: Create logs directory
         run: mkdir -p logs/
 
       - name: Safety
         run: |
-          cd ${{ github.workspace }}
           pip install safety
-          if [ ! -f ./requirements.txt ]; then
-            echo "Error: requirements.txt not found"
-            exit 1
-          fi
-          safety check -r ./requirements.txt > ./logs/result-safety.txt || exit $?
-
-      - name: Print logs
-        run: cat logs/result-safety.txt
-
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: logs
-          path: logs/result-safety.txt
+          safety check -r ./requirements.txt > ./logs/result-safety.txt
 
   sast:
     needs: [build]
