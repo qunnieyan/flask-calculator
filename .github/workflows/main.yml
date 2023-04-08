@@ -53,12 +53,12 @@ jobs:
       
       - name: Run Docker container
         run: |
-          docker run -d -p 3000:3000 --name flask-app flask-calculator:${{ github.sha }}
+          docker run -d -p 5000:5000 --name flask-app flask-calculator:${{ github.sha }}
 
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.6.1
         with:
-          target: 'http://localhost:3000'
+          target: 'http://localhost:5000'
           cmd_options: '-a'    
          
   deploy:
