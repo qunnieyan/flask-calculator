@@ -28,7 +28,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2   
+      - uses: actions/checkout@v2  
+      - name: Create logs directory
+        run: mkdir -p logs/ 
       - name: Pyraider
         run: |
           pip install pyraider
@@ -38,8 +40,6 @@ jobs:
         with:
           name: logs
           path: logs/result.json 
-      - name: Create logs directory
-        run: mkdir -p logs/
 
       - name: Safety
         run: |
