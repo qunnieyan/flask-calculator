@@ -6,6 +6,13 @@ on:
       - main
 
 jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2           
+      - uses: max/secret-scan@master
+      
   build:
     runs-on: ubuntu-latest
 
@@ -28,7 +35,7 @@ jobs:
       - name: Safety
         run: |
          pip install safety
-         safety check -r requirements.txt > logs/result-safety.txt
+         safety check -r ./requirements.txt > ./logs/result-safety.txt
       - uses: actions/upload-artifact@v2
         with:
           name: logs
