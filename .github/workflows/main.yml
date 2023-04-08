@@ -29,17 +29,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2   
-      
-      - run: |
-          mkdir -p logs/
+
+      - name: Create logs directory
+        run: mkdir -p logs/
+
       - name: Safety
         run: |
-         pip install safety
-         safety check -r ./requirements.txt > ./logs/result-safety.txt
+          cd ${{ github.workspace }}
+          pip install safety
+          safety check -r ./requirements.txt > ./logs/result-safety.txt
+
       - uses: actions/upload-artifact@v2
         with:
           name: logs
-          path: logs/result.txt   
+          path: logs/result-safety.txt 
 
   sast:
     needs: [build]
