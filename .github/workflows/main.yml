@@ -63,7 +63,7 @@ jobs:
         path: logs/output.json
         
   dast:
-    needs: [build, sca]
+#     needs: [build, sca]
     runs-on: ubuntu-latest
     # permissions: write-all
     steps:
