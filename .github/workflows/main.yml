@@ -24,25 +24,33 @@ jobs:
       run: docker build -t flask-calculator:${{ github.sha }} .
       working-directory: ./
       
-  sca:
-    runs-on: ubuntu-latest
+sca:
+  runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2   
+  steps:
+    - uses: actions/checkout@v2   
+      
+    - name: Create logs directory
+      run: mkdir -p logs/
+      
+    - name: Safety
+      run: |
+        cd ${{ github.workspace }}
+        pip install safety
+        if [ ! -f ./requirements.txt ]; then
+          echo "Error: requirements.txt not found"
+          exit 1
+        fi
+        safety check -r ./requirements.txt > ./logs/result-safety.txt || exit $?
+      
+    - name: Print logs
+      run: cat logs/result-safety.txt
 
-      - name: Create logs directory
-        run: mkdir -p logs/
-
-      - name: Safety
-        run: |
-          cd ${{ github.workspace }}
-          pip install safety
-          safety check -r ./requirements.txt > ./logs/result-safety.txt
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: logs
-          path: logs/result-safety.txt 
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: logs
+        path: logs/result-safety.txt
 
   sast:
     needs: [build]
@@ -59,6 +67,17 @@ jobs:
       with:
         name: logs
         path: logs/output.json
+        
+  dast:
+    needs: [build, sca]
+    runs-on: ubuntu-latest
+    # permissions: write-all
+    steps:
+     - name: ZAP Scan
+       uses: zaproxy/action-baseline@v0.6.1
+       with:
+         target: 'http://localhost:5000'
+         cmd_options: '-a'    
 
   deploy:
     needs: [build, sast]
