@@ -44,7 +44,7 @@ jobs:
       - name: Safety
         run: |
           pip install safety
-         # safety check -r ./requirements.txt > ./logs/result-safety.txt
+          safety check -r ./requirements.txt
 
   sast:
     needs: [build]
