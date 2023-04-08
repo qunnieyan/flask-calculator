@@ -20,9 +20,8 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v2
 
-    - name: Build docker
-      run: docker build -t flask-calculator:${{ github.sha }} .
-      working-directory: ./
+    - name: Build docker-compose
+      run: docker-compose -f ./docker-compose.yml up --build -d
       
   sast:
     needs: [build]
@@ -48,12 +47,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
     
-      - name: Build Image for testing
-        run: docker build -t flask-calculator:${{ github.sha }} .
-      
-      - name: Run Docker container
-        run: |
-          docker run -d -p 5000:5000 --name flask-app flask-calculator:${{ github.sha }}
+      - name: Build docker-compose
+        run: docker-compose -f ./docker-compose.yml up --build -d
 
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.6.1
