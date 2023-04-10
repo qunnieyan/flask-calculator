@@ -53,7 +53,7 @@ jobs:
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.6.1
         with:
-          target: 'http://localhost:5000'
+          target: 'http://localhost:3000'
           cmd_options: '-a'    
          
   deploy:
