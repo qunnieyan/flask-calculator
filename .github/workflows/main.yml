@@ -25,7 +25,8 @@ jobs:
       run: docker-compose -f ./docker-compose.yml up --build -d
 
     - name: Check Docker
-      run: docker info
+      run: docker version && sudo systemctl status docker
+
       
   sast:
     needs: [build]
