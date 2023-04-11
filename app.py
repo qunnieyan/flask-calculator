@@ -1,6 +1,6 @@
 from flask import Flask,render_template, request
-#from keep_alive import keep_alive, app
-app = Flask(__name__)
+from keep_alive import keep_alive, app
+# app = Flask(__name__)
 
 @app.route("/")
 def main():
@@ -45,4 +45,3 @@ def server_error(error):
 
 if __name__ == "__main__":
     keep_alive()
-    app.run(host="0.0.0.0")
