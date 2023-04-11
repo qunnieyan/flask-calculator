@@ -1,15 +1,9 @@
 version: '3'
 services:
   app:
-    image: python:3.10
-    command: bash -c "pip install -r /opt/app/requirements.txt && python /opt/app/app.py"
     
-    volumes:
-      - .:/opt/app
+    build: ./ 
+    
     ports:
-      - 5000:5000
-    networks:
-      - project
+      - 3000:3000
 
-networks:
-  project:
