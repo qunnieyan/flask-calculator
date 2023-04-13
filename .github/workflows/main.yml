@@ -90,7 +90,7 @@ jobs:
      - name: Run Dockle
        uses: erzz/dockle-action@v1.1.1
        with:
-         image: silvermistvv/tic4302-demo
+         image: qunyan/tic4302-demo
          report-format: json
          report-name: dockle-report
         
